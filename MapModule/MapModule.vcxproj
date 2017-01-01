@@ -89,10 +89,12 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>D:\BuildFiles\SFML\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>D:\BuildFiles\SFML\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -147,6 +149,14 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="dDelaunay.h" />
+    <ClInclude Include="LineEquation.h" />
+    <ClInclude Include="Vector2d.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="dDelaunay.cpp" />
+    <ClCompile Include="LineEquation.cpp" />
+    <ClCompile Include="Quadtree.cpp" />
+    <ClCompile Include="Vector2d.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

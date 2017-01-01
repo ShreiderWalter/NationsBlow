@@ -185,8 +185,8 @@ namespace del {
     protected:
         void HandleEdge(const vertex * p0, const vertex * p1) const
         {
-            const vertex * pVertex0(NULL);
-            const vertex * pVertex1(NULL);
+            const vertex * pVertex0(nullptr);
+            const vertex * pVertex1(nullptr);
 
             // Create a normalized edge, in which the smallest vertex comes first.
             if (*p0 < *p1)
@@ -249,7 +249,7 @@ namespace del {
         yMax += ddy;
         dy += 2 * ddy;
 
-        // Create a 'super triangle', encompassing all the vertices. We choose an equilateral triangle with horizontal base.
+        // Create a 'super triangle', encompassing all the vertices. We choose an LineEquationilateral triangle with horizontal base.
         // We could have made the 'super triangle' simply very big. However, the algorithm is quite sensitive to
         // rounding errors, so it's better to make the 'super triangle' just big enough, like we do here.
         vertex vSuper[3];
@@ -331,8 +331,8 @@ namespace del {
 
     void Delaunay::HandleEdge(const vertex * p0, const vertex * p1, edgeSet& edges)
     {
-        const vertex * pV0(NULL);
-        const vertex * pV1(NULL);
+        const vertex * pV0(nullptr);
+        const vertex * pV1(nullptr);
 
         if (*p0 < *p1)
         {

@@ -20,7 +20,7 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 // Class to perform Delaunay triangulation on a set of vertices
 //
 // Version 1.2 (C) 2005, Sjaak Priester, Amsterdam.
-// - Removed stupid bug in SetY; function wasn't used, so no consequences. Thanks to squat.
+// - Removed stupid bug in SetY; function wasn't used, so no consLineEquationences. Thanks to squat.
 //
 // Version 1.1 (C) 2005, Sjaak Priester, Amsterdam.
 // - Removed bug which gave incorrect results for co-circular vertices.
