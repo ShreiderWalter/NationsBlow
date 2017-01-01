@@ -163,13 +163,13 @@ namespace del {
             //		if (y > (m_Center.Y + m_R)) return false;
             //		if (y < (m_Center.Y - m_R)) return false;
 
-            PointF dist = itVertex->GetPoint() - m_Center;		// the distance between v and the circle center
+            PointF dist = itVertex->GetPoint() - m_Center;		// the distance between v and the circle Center
             REAL dist2 = dist.X * dist.X + dist.Y * dist.Y;		// squared
             return dist2 <= m_R2;								// compare with squared radius
         }
     protected:
         const vertex * m_Vertices[3];	// the three triangle vertices
-        PointF m_Center;				// center of circumcircle
+        PointF m_Center;				// Center of circumcircle
         REAL m_R;			// radius of circumcircle
         REAL m_R2;			// radius of circumcircle, squared
 
@@ -178,25 +178,25 @@ namespace del {
 
     // Changed in verion 1.1: collect triangles in a multiset.
     // In version 1.0, I used a set, preventing the creation of multiple
-    // triangles with identical center points. Therefore, more than three
+    // triangles with identical Center points. Therefore, more than three
     // co-circular vertices yielded incorrect results. Thanks to Roger Labbe.
     typedef multiset<triangle> triangleSet;
     typedef multiset<triangle>::iterator tIterator;
     typedef multiset<triangle>::const_iterator ctIterator;
 
     ///////////////////
-    // edge
+    // Edge
 
-    class edge
+    class Edge
     {
     public:
-        edge(const edge& e) : m_pV0(e.m_pV0), m_pV1(e.m_pV1) {}
-        edge(const vertex * pV0, const vertex * pV1)
+        Edge(const Edge& e) : m_pV0(e.m_pV0), m_pV1(e.m_pV1) {}
+        Edge(const vertex * pV0, const vertex * pV1)
             : m_pV0(pV0), m_pV1(pV1)
         {
         }
 
-        bool operator<(const edge& e) const
+        bool operator<(const Edge& e) const
         {
             if (m_pV0 == e.m_pV0) return *m_pV1 < *e.m_pV1;
             return *m_pV0 < *e.m_pV0;
@@ -206,9 +206,9 @@ namespace del {
         const vertex * m_pV1;
     };
 
-    typedef set<edge> edgeSet;
-    typedef set<edge>::iterator edgeIterator;
-    typedef set<edge>::const_iterator cedgeIterator;
+    typedef set<Edge> EdgeSet;
+    typedef set<Edge>::iterator EdgeIterator;
+    typedef set<Edge>::const_iterator cEdgeIterator;
 
     ///////////////////
     // Delaunay
@@ -219,11 +219,11 @@ namespace del {
         // Calculate the Delaunay triangulation for the given set of vertices.
         void Triangulate(const vertexSet& vertices, triangleSet& output);
 
-        // Put the edges of the triangles in an edgeSet, eliminating double edges.
+        // Put the Edges of the triangles in an EdgeSet, eliminating double Edges.
         // This comes in useful for drawing the triangulation.
-        void TrianglesToEdges(const triangleSet& triangles, edgeSet& edges);
+        void TrianglesToEdges(const triangleSet& triangles, EdgeSet& Edges);
     protected:
-        void HandleEdge(const vertex * p0, const vertex * p1, edgeSet& edges);
+        void HandleEdge(const vertex * p0, const vertex * p1, EdgeSet& Edges);
     };
 
 }

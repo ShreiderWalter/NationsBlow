@@ -1,0 +1,21 @@
+﻿  main.cpp
+c:\users\admin\documents\visual studio 2015\projects\mapmodule\mapmodule\poissondisksampling.h(22): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
+c:\users\admin\documents\visual studio 2015\projects\mapmodule\mapmodule\poissondisksampling.h(23): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
+c:\users\admin\documents\visual studio 2015\projects\mapmodule\mapmodule\main.cpp(140): warning C4018: '<': signed/unsigned mismatch
+c:\users\admin\documents\visual studio 2015\projects\mapmodule\mapmodule\main.cpp(142): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+c:\users\admin\documents\visual studio 2015\projects\mapmodule\mapmodule\main.cpp(249): warning C4244: 'argument': conversion from 'const int' to 'float', possible loss of data
+c:\users\admin\documents\visual studio 2015\projects\mapmodule\mapmodule\main.cpp(250): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+c:\users\admin\documents\visual studio 2015\projects\mapmodule\mapmodule\main.cpp(257): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+c:\users\admin\documents\visual studio 2015\projects\mapmodule\mapmodule\main.cpp(269): warning C4018: '<': signed/unsigned mismatch
+c:\users\admin\documents\visual studio 2015\projects\mapmodule\mapmodule\main.cpp(272): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+c:\users\admin\documents\visual studio 2015\projects\mapmodule\mapmodule\main.cpp(291): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+c:\users\admin\documents\visual studio 2015\projects\mapmodule\mapmodule\main.cpp(294): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+c:\users\admin\documents\visual studio 2015\projects\mapmodule\mapmodule\main.cpp(295): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+c:\users\admin\documents\visual studio 2015\projects\mapmodule\mapmodule\main.cpp(345): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+c:\users\admin\documents\visual studio 2015\projects\mapmodule\mapmodule\main.cpp(346): warning C4244: 'argument': conversion from 'const int' to 'float', possible loss of data
+c:\users\admin\documents\visual studio 2015\projects\mapmodule\mapmodule\main.cpp(354): warning C4018: '<': signed/unsigned mismatch
+c:\users\admin\documents\visual studio 2015\projects\mapmodule\mapmodule\main.cpp(357): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+c:\users\admin\documents\visual studio 2015\projects\mapmodule\mapmodule\main.cpp(400): warning C4244: 'argument': conversion from 'const int' to 'float', possible loss of data
+c:\users\admin\documents\visual studio 2015\projects\mapmodule\mapmodule\main.cpp(401): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+  MapModule.vcxproj -> c:\users\admin\documents\visual studio 2015\Projects\MapModule\Debug\MapModule.exe
+  MapModule.vcxproj -> c:\users\admin\documents\visual studio 2015\Projects\MapModule\Debug\MapModule.pdb (Full PDB)

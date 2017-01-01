@@ -83,7 +83,7 @@ Vector2d & Vector2d::operator -=(const double & f)
 }
 
 Vector2d & Vector2d::operator *=(const double & f) 
-
+{
     y *= f;
 
     return *this;

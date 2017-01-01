@@ -105,7 +105,7 @@ namespace del {
         m_R2 = dx * dx + dy * dy;	// the radius of the circumcircle, squared
         m_R = (REAL)sqrt(m_R2);	// the proper radius
 
-                                // Version 1.1: make m_R2 slightly higher to ensure that all edges
+                                // Version 1.1: make m_R2 slightly higher to ensure that all Edges
                                 // of co-circular vertices will be caught.
                                 // Note that this is a compromise. In fact, the algorithm isn't really
                                 // suited for very many co-circular vertices.
@@ -165,11 +165,11 @@ namespace del {
 
     // Function object to check whether vertex is in circumcircle of triangle.
     // operator() returns true if it does.
-    // The edges of a 'hot' triangle are stored in the edgeSet edges.
+    // The Edges of a 'hot' triangle are stored in the EdgeSet Edges.
     class vertexIsInCircumCircle
     {
     public:
-        vertexIsInCircumCircle(cvIterator itVertex, edgeSet& edges) : m_itVertex(itVertex), m_Edges(edges) {}
+        vertexIsInCircumCircle(cvIterator itVertex, EdgeSet& Edges) : m_itVertex(itVertex), m_Edges(Edges) {}
         bool operator()(const triangle& tri) const
         {
             bool b = tri.CCEncompasses(m_itVertex);
@@ -188,7 +188,7 @@ namespace del {
             const vertex * pVertex0(nullptr);
             const vertex * pVertex1(nullptr);
 
-            // Create a normalized edge, in which the smallest vertex comes first.
+            // Create a normalized Edge, in which the smallest vertex comes first.
             if (*p0 < *p1)
             {
                 pVertex0 = p0;
@@ -200,17 +200,17 @@ namespace del {
                 pVertex1 = p0;
             }
 
-            edge e(pVertex0, pVertex1);
+            Edge e(pVertex0, pVertex1);
 
-            // Check if this edge is already in the buffer
-            edgeIterator found = m_Edges.find(e);
+            // Check if this Edge is already in the buffer
+            EdgeIterator found = m_Edges.find(e);
 
             if (found == m_Edges.end()) m_Edges.insert(e);		// no, it isn't, so insert
-            else m_Edges.erase(found);							// yes, it is, so erase it to eliminate double edges
+            else m_Edges.erase(found);							// yes, it is, so erase it to eliminate double Edges
         }
 
         cvIterator m_itVertex;
-        edgeSet& m_Edges;
+        EdgeSet& m_Edges;
     };
 
     void Delaunay::Triangulate(const vertexSet& vertices, triangleSet& output)
@@ -249,7 +249,7 @@ namespace del {
         yMax += ddy;
         dy += 2 * ddy;
 
-        // Create a 'super triangle', encompassing all the vertices. We choose an LineEquationilateral triangle with horizontal base.
+        // Create a 'super triangle', encompassing all the vertices. We choose an LineLineEquationationilateral triangle with horizontal base.
         // We could have made the 'super triangle' simply very big. However, the algorithm is quite sensitive to
         // rounding errors, so it's better to make the 'super triangle' just big enough, like we do here.
         vertex vSuper[3];
@@ -284,14 +284,14 @@ namespace del {
             }
 
 
-            edgeSet edges;
+            EdgeSet Edges;
 
             // A triangle is 'hot' if the current vertex v is inside the circumcircle.
-            // Remove all hot triangles, but keep their edges.
-            //itEnd = remove_if(workset.begin(), itEnd, vertexIsInCircumCircle(itVertex, edges));
+            // Remove all hot triangles, but keep their Edges.
+            //itEnd = remove_if(workset.begin(), itEnd, vertexIsInCircumCircle(itVertex, Edges));
             //workset.erase(itEnd, workset.end());	// remove_if doesn't actually remove; we have to do this explicitly.
 
-            vertexIsInCircumCircle pred2(itVertex, edges);
+            vertexIsInCircumCircle pred2(itVertex, Edges);
             it = workset.begin();
             while (it != workset.end()) {
                 if (pred2(*it)) {
@@ -302,8 +302,8 @@ namespace del {
                 }
             }
 
-            // Create new triangles from the edges and the current vertex.
-            for (edgeIterator it = edges.begin(); it != edges.end(); it++)
+            // Create new triangles from the Edges and the current vertex.
+            for (EdgeIterator it = Edges.begin(); it != Edges.end(); it++)
                 workset.insert(triangle(it->m_pV0, it->m_pV1, &(*itVertex)));
         }
 
@@ -319,17 +319,17 @@ namespace del {
         //remove_copy_if(workset.begin(), workset.end(), inserter(output, where), triangleHasVertex(vSuper));
     }
 
-    void Delaunay::TrianglesToEdges(const triangleSet& triangles, edgeSet& edges)
+    void Delaunay::TrianglesToEdges(const triangleSet& triangles, EdgeSet& Edges)
     {
         for (ctIterator it = triangles.begin(); it != triangles.end(); ++it)
         {
-            HandleEdge(it->GetVertex(0), it->GetVertex(1), edges);
-            HandleEdge(it->GetVertex(1), it->GetVertex(2), edges);
-            HandleEdge(it->GetVertex(2), it->GetVertex(0), edges);
+            HandleEdge(it->GetVertex(0), it->GetVertex(1), Edges);
+            HandleEdge(it->GetVertex(1), it->GetVertex(2), Edges);
+            HandleEdge(it->GetVertex(2), it->GetVertex(0), Edges);
         }
     }
 
-    void Delaunay::HandleEdge(const vertex * p0, const vertex * p1, edgeSet& edges)
+    void Delaunay::HandleEdge(const vertex * p0, const vertex * p1, EdgeSet& Edges)
     {
         const vertex * pV0(nullptr);
         const vertex * pV1(nullptr);
@@ -345,8 +345,8 @@ namespace del {
             pV1 = p0;
         }
 
-        // Insert a normalized edge. If it's already in edges, insertion will fail,
-        // thus leaving only unique edges.
-        edges.insert(edge(pV0, pV1));
+        // Insert a normalized Edge. If it's already in Edges, insertion will fail,
+        // thus leaving only unique Edges.
+        Edges.insert(Edge(pV0, pV1));
     }
 }
