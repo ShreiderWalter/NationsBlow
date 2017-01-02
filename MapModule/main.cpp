@@ -116,10 +116,10 @@ int main()
 
     VideoMode = InfoShown::Biomes;
 
-    sf::RenderWindow * app = new sf::RenderWindow(sf::VideoMode(WIDTH, HEIGHT, 32), "Map Generator");
+    sf::RenderWindow * app = new sf::RenderWindow(sf::VideoMode(WIDTH, WIDTH, 32), "Map Generator");
     app->setFramerateLimit(60);
 
-    Map mapa(WIDTH, HEIGHT, 10, "");
+    Map mapa(WIDTH, WIDTH, 10, "");
 
     timer.restart();
     mapa.Generate();
@@ -135,7 +135,8 @@ int main()
     {
         sf::ConvexShape polygon;
         polygon.setPointCount((*center_iter)->m_corners.size());
-        for (int i = 0; i < (*center_iter)->m_corners.size(); i++) {
+        for (int i = 0; i < (*center_iter)->m_corners.size(); i++) 
+        {
             Vector2d aux = (*center_iter)->m_corners[i]->m_position;
             polygon.setPoint(i, sf::Vector2f(aux.x, aux.y));
         }

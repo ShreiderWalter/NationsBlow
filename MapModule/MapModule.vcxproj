@@ -150,6 +150,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="dDelaunay.h" />
+    <ClInclude Include="Hexagon.h" />
     <ClInclude Include="LineEquation.h" />
     <ClInclude Include="Map.h" />
     <ClInclude Include="PoissonDiskSampling.h" />
