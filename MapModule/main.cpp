@@ -119,7 +119,7 @@ int main()
     sf::RenderWindow * app = new sf::RenderWindow(sf::VideoMode(WIDTH, HEIGHT, 32), "Map Generator");
     app->setFramerateLimit(60);
 
-    Map mapa(WIDTH, HEIGHT, 10, "");
+    Map mapa(WIDTH, HEIGHT, 5, "");
 
     timer.restart();
     mapa.Generate();

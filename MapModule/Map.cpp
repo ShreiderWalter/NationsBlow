@@ -82,76 +82,23 @@ Map::Map(int width, int height, double point_spread, string seed) : m_centers_qu
 
 void Map::Generate() 
 {
-    sf::Clock timer;
-
     GeneratePolygons();
-
-    //cout << "Land distribution: ";
-    timer.restart();
     GenerateLand();
-    //cout << timer.getElapsedTime().asMicroseconds() / 1000.0 << " ms." << endl;
-
-    // ELEVATION
-    //cout << "Coast assignment: ";
-    timer.restart();
     AssignOceanCoastLand();
-    //cout << timer.getElapsedTime().asMicroseconds() / 1000.0 << " ms." << endl;
-
-    //cout << "Corner altitude: ";
-    timer.restart();
     AssignCornerElevation();
-    //cout << timer.getElapsedTime().asMicroseconds() / 1000.0 << " ms." << endl;
-
-    //cout << "Altitude redistribution: ";
-    timer.restart();
     RedistributeElevations();
-    //cout << timer.getElapsedTime().asMicroseconds() / 1000.0 << " ms." << endl;
-
-    //cout << "Center altitude: ";
-    timer.restart();
     AssignPolygonElevations();
-    //cout << timer.getElapsedTime().asMicroseconds() / 1000.0 << " ms." << endl;
-
-    // MOISTURE
-    //cout << "Downslopes: ";
-    timer.restart();
     CalculateDownslopes();
-    //cout << timer.getElapsedTime().asMicroseconds() / 1000.0 << " ms." << endl;
-
-    //cout << "River generation: ";
-    timer.restart();
     GenerateRivers();
-    //cout << timer.getElapsedTime().asMicroseconds() / 1000.0 << " ms." << endl;
-
-    //cout << "Corner m_moisture: ";
-    timer.restart();
     AssignCornerMoisture();
-    //cout << timer.getElapsedTime().asMicroseconds() / 1000.0 << " ms." << endl;
-
-    //cout << "Moisture redistribution: ";
-    timer.restart();
     RedistributeMoisture();
-    //cout << timer.getElapsedTime().asMicroseconds() / 1000.0 << " ms." << endl;
-
-    //cout << "Center m_moisture: ";
-    timer.restart();
     AssignPolygonMoisture();
-    //cout << timer.getElapsedTime().asMicroseconds() / 1000.0 << " ms." << endl;
-
-    // BIOMES
-    //cout << "Biome assignment: ";
-    timer.restart();
     AssignBiomes();
-    //cout << timer.getElapsedTime().asMicroseconds() / 1000.0 << " ms." << endl;
-
-    //cout << "Populate Quadtree: ";
-    timer.restart();
     for (int i = 0; i < m_centers.size(); i++) 
     {
         pair<Vector2d, Vector2d> boundingBox(m_centers[i]->GetBoundingBox());
         m_centers_quadtree.Insert2(m_centers[i], BoundingBox(boundingBox.first, boundingBox.second));
     }
-    //cout << timer.getElapsedTime().asMicroseconds() / 1000.0 << " ms." << endl;
 }
 
 void Map::GeneratePolygons() 
@@ -704,34 +651,38 @@ bool Map::IsIsland(Vector2d position) {
     if (position.x < map_width * water_threshold || position.y < map_height * water_threshold
         || position.x > map_width * (1 - water_threshold) || position.y > map_height * (1 - water_threshold))
         return false;
+    
+    auto islandCenter = Vector2d{2 * (position.x / map_width - 0.5), 2 * (position.y / map_height - 0.5)};
 
-    Vector2d center_pos = Vector2d(map_width / 2.0, map_height / 2.0);
+    //Vector2d center_pos = Vector2d(map_width / 2.0, map_height / 2.0);
 
-    position -= center_pos;
-    double x_coord = (position.x / map_width) * 4;
-    double y_coord = (position.y / map_height) * 4;
+    //position -= center_pos;
+    //double x_coord = (position.x / map_width) * 4;
+    //double y_coord = (position.y / map_height) * 4;
     double noise_val = 0.;
     try
     {
-        if (x_coord > 0 && y_coord > 0 && z_coord > 0)
-        {
-            noise_val = noiseMap->GetValue(x_coord, y_coord, z_coord);
-        }
+        noise_val = noiseMap->GetValue(islandCenter.x, islandCenter.y, 0);
     }
-    catch (...)
+    catch (std::exception& e)
     {
+        std::cout << e.what();
     }
+    auto tmp = (0.3 + 0.3 * islandCenter.Length() * islandCenter.Length());
+    return noise_val > tmp;
 
-    position /= min(map_width, map_height);
+    /*position /= min(map_width, map_height);
     double radius = position.Length();
 
     double factor = radius - 0.5;
+*/
     /*	if(radius > 0.3)
     factor = -1 / log(radius - 0.3) / 10;
     else
     factor = radius - 0.3;
     */
-    return noise_val >= 0.3*radius + factor;
+
+    //return noise_val >= 0.3*radius + factor;
 }
 
 void Map::Triangulate(vector<del::vertex> points) 
