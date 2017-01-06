@@ -26,38 +26,27 @@ vector<pair<double, double> > PoissonDiskSampling::Generate()
 
     m_process.push_back(first_point);
     m_sample.push_back(make_pair(first_point.x, first_point.y));
-    auto N = sqrt(m_grid_width * m_grid_height);
-    for (size_t i = 0; i < N; ++i)
-    {
-        for (size_t j = 0; j < N; ++j)
-        {
-            m_sample.push_back(make_pair((0.5 + i) / N * m_grid_width, (0.25 + 0.5 * (i % 2) + j) / N * m_grid_height));
+    int first_point_x = first_point.x / m_cell_size;
+    int first_point_y = first_point.y / m_cell_size;
+    m_grid[first_point_x][first_point_y] = new point(first_point);
+
+    while (!m_process.empty()) {
+        int new_point_index = rand() % m_process.size();
+        point new_point = m_process[new_point_index];
+        m_process.erase(m_process.begin() + new_point_index);
+
+        for (int i = 0; i < m_point_count; i++) {
+            point new_point_around = generatePointAround(new_point);
+
+            if (inRectangle(new_point_around) && !inNeighbourhood(new_point_around)) {
+                m_process.push_back(new_point_around);
+                m_sample.push_back(make_pair(new_point_around.x, new_point_around.y));
+                int new_point_x = new_point_around.x / m_cell_size;
+                int new_point_y = new_point_around.y / m_cell_size;
+                m_grid[new_point_x][new_point_y] = new point(new_point_around);
+            }
         }
     }
-    //int first_point_x = first_point.x / m_cell_size;
-    //int first_point_y = first_point.y / m_cell_size;
-    //m_grid[first_point_x][first_point_y] = new point(first_point);
-
-    //while (!m_process.empty()) 
-    //{
-    //    int new_point_index = rand() % m_process.size();
-    //    point new_point = m_process[new_point_index];
-    //    m_process.erase(m_process.begin() + new_point_index);
-
-    //    for (int i = 0; i < m_point_count; i++) 
-    //    {
-    //        point new_point_around = generatePointAround(new_point);
-
-    //        if (inRectangle(new_point_around) && !inNeighbourhood(new_point_around)) 
-    //        {
-    //            m_process.push_back(new_point_around);
-    //            m_sample.push_back(make_pair(new_point_around.x, new_point_around.y));
-    //            int new_point_x = new_point_around.x / m_cell_size;
-    //            int new_point_y = new_point_around.y / m_cell_size;
-    //            m_grid[new_point_x][new_point_y] = new point(new_point_around);
-    //        }
-    //    }
-    //}
 
     return m_sample;
 }

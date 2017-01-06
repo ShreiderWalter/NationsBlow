@@ -116,10 +116,10 @@ int main()
 
     VideoMode = InfoShown::Biomes;
 
-    sf::RenderWindow * app = new sf::RenderWindow(sf::VideoMode(WIDTH, WIDTH, 32), "Map Generator");
+    sf::RenderWindow * app = new sf::RenderWindow(sf::VideoMode(WIDTH, HEIGHT, 32), "Map Generator");
     app->setFramerateLimit(60);
 
-    Map mapa(WIDTH, WIDTH, 10, "");
+    Map mapa(WIDTH, HEIGHT, 10, "");
 
     timer.restart();
     mapa.Generate();

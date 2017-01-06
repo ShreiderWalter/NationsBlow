@@ -5,6 +5,7 @@
 #include <ctime>
 #include <queue>
 #include <SFML/System.hpp>
+#include <random>
 #include "Hexagon.h"
 
 const vector<vector<Biome::Type> > Map::elevation_moisture_matrix = Map::MakeBiomeMatrix();
@@ -155,11 +156,9 @@ void Map::Generate()
 
 void Map::GeneratePolygons() 
 {
-    sf::Clock timer;
     GeneratePoints();
-    timer.restart();
-    //Triangulate(points);
-    HexagonalGrid();
+    Triangulate(points);
+    //HexagonalGrid();
 
     FinishInfo();
 
@@ -173,9 +172,7 @@ void Map::HexagonalGrid()
     m_edges.clear();
     pos_cen_map.clear();
 
-
-    for (size_t i = 0; i < points.size(); i += 7)
-    {
+    auto mainRoutine = [&](size_t i, std::vector<del::vertex>& points) {
         Vector2d pos_center_0(points[i].GetX(), points[i].GetY());
 
         Center * c1 = GetCenter(pos_center_0);
@@ -306,6 +303,11 @@ void Map::HexagonalGrid()
             e61->v1 = corner6;
         }
         corner6->m_edges.push_back(e61);
+    };
+
+    for (size_t i = 0; i < points.size(); i+= 7)
+    {
+        mainRoutine(i, points);
     }
 }
 
@@ -747,21 +749,21 @@ void Map::Triangulate(vector<del::vertex> points)
 
     dela.Triangulate(v, tris);
 
-    for each (del::triangle t in tris) 
+    for each (del::triangle t in tris)
     {
         Vector2d pos_center_0(t.GetVertex(0)->GetX(), t.GetVertex(0)->GetY());
         Vector2d pos_center_1(t.GetVertex(1)->GetX(), t.GetVertex(1)->GetY());
         Vector2d pos_center_2(t.GetVertex(2)->GetX(), t.GetVertex(2)->GetY());
 
         Center * c1 = GetCenter(pos_center_0);
-        if (c1 == nullptr) 
+        if (c1 == nullptr)
         {
             c1 = new Center(center_index++, pos_center_0);
             m_centers.push_back(c1);
             AddCenter(c1);
         }
         Center * c2 = GetCenter(pos_center_1);
-        if (c2 == nullptr) 
+        if (c2 == nullptr)
         {
             c2 = new Center(center_index++, pos_center_1);
             m_centers.push_back(c2);
@@ -786,7 +788,7 @@ void Map::Triangulate(vector<del::vertex> points)
         c->m_position = c->CalculateCircumCenter();
 
         Edge * e12 = c1->GetEdgeWith(c2);
-        if (e12 == nullptr) 
+        if (e12 == nullptr)
         {
             e12 = new Edge(edge_index++, c1, c2, nullptr, nullptr);
             e12->v0 = c;
@@ -801,7 +803,7 @@ void Map::Triangulate(vector<del::vertex> points)
         c->m_edges.push_back(e12);
 
         Edge * e23 = c2->GetEdgeWith(c3);
-        if (e23 == nullptr) 
+        if (e23 == nullptr)
         {
             e23 = new Edge(edge_index++, c2, c3, nullptr, nullptr);
             e23->v0 = c;
@@ -816,7 +818,7 @@ void Map::Triangulate(vector<del::vertex> points)
         c->m_edges.push_back(e23);
 
         Edge * e31 = c3->GetEdgeWith(c1);
-        if (e31 == nullptr) 
+        if (e31 == nullptr)
         {
             e31 = new Edge(edge_index++, c3, c1, nullptr, nullptr);
             e31->v0 = c;
@@ -824,7 +826,7 @@ void Map::Triangulate(vector<del::vertex> points)
             c3->m_edges.push_back(e31);
             c1->m_edges.push_back(e31);
         }
-        else 
+        else
         {
             e31->v1 = c;
         }
@@ -864,8 +866,7 @@ void Map::GeneratePoints()
     //PoissonDiskSampling pds(800, 600, m_point_spread, 10);
     //vector<pair<double, double> > new_points = pds.Generate();
     //cout << "Generating " << new_points.size() << " points..." << endl;
-    //for each (pair<double, double> p in new_points)
-    //{
+    //for each (pair<double, double> p in new_points) {
     //    points.push_back(del::vertex((int)p.first, (int)p.second));
     //}
     //points.push_back(del::vertex(-map_width, -map_height));
@@ -874,20 +875,15 @@ void Map::GeneratePoints()
     //points.push_back(del::vertex(-map_width, 2 * map_height));
 
     //try to simply generate hexagon grid
-    Layout _layout(layout_flat, Point(10, 10), Point(0, 0));
+    Layout _layout(layout_flat, Point(8, 8), Point(0, 0));
     for (size_t i = 0; i < map_width; i += _layout.size.x)
     {
         for (size_t j = 0; j < map_height; j += _layout.size.y)
         {
             auto hex = pixel_to_hex(_layout, Point(i, j));
             auto hexInt = Hex(hex.q, hex.r, hex.s);
-            auto corners = polygon_corners(_layout, hexInt);
             auto center = hex_to_pixel(_layout, hexInt);
             points.emplace_back(del::vertex((float)center.x, (float)center.y));
-            for (const auto& corner : corners)
-            {
-                points.emplace_back(del::vertex((float)corner.x, (float)corner.y));
-            }
         }
     }
 }

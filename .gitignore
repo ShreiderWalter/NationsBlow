@@ -2,3 +2,10 @@
 *.opendb
 *.db
 *.filters
+*.exe
+*.ilk
+*.pdb
+*.obj
+*.log
+*.tlog
+*.idb
