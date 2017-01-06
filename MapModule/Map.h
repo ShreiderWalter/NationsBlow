@@ -54,7 +54,6 @@ private:
     static const vector<vector<Biome::Type> > elevation_moisture_matrix;
     static vector<vector<Biome::Type> > MakeBiomeMatrix();
 
-    void HexagonalGrid();
     bool IsIsland(Vector2d position);
     void AssignOceanCoastLand();
     void AssignCornerElevation();

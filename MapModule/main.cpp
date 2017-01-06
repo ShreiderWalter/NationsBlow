@@ -11,8 +11,8 @@
 using namespace noise;
 using namespace std;
 
-const int WIDTH = 800;
-const int HEIGHT = 600;
+const int WIDTH = 1200;
+const int HEIGHT = 800;
 
 const int POINT_SIZE = 2;
 const int LINE_SIZE = 1;
